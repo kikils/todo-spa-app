@@ -1,0 +1,45 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    container_name: todo-frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/:/usr/src/app
+    env_file:
+      - firebase_deploy.env
+    working_dir: /usr/src/app/vue-demo
+    command: "yarn local-serve"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: todo-backend
+    ports:
+      - "8081:8080"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./backend:/go/src/github.com/kikils/golang-todo
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:10
+    container_name: golang_todo_db
+    ports:
+        - 5432:5432
+    volumes:
+        - ./db/init/:/docker-entrypoint-initdb.d/:ro
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
