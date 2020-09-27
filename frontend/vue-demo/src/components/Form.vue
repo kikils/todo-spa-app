@@ -10,16 +10,12 @@
             name="title"
             class="form-control"
             v-model="inputTitle"
+            placeholder="タイトル"
           />
         </b-list-group-item>
         <b-list-group-item class="list-group-item">
           <label>締め切り日付</label>
-          <input
-            type="text"
-            name="period"
-            class="form-control"
-            v-model="inputPeriod"
-          />
+          <Datepicker  v-model="inputPeriod" :format="DatePickerFormat" :language="ja" input-class="form-control" typeable=true placeholder="20200927"></Datepicker>
         </b-list-group-item>
         <b-list-group-item class="list-group-item">
           <label>詳細</label>
@@ -27,6 +23,7 @@
             name="detail"
             class="form-control"
             v-model="inputDetail"
+            placeholder="詳細"
           ></textarea>
         </b-list-group-item>
         <b-list-group-item class="list-group-item m-0 p-0">
@@ -42,8 +39,14 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker'
+import {ja} from 'vuejs-datepicker/dist/locale'
+
 import api from "@/api";
 export default {
+  components: {
+    Datepicker
+  },
   data() {
     return {
       inputTitle: "",
@@ -51,6 +54,8 @@ export default {
       inputDetail: "",
       validationError: "",
       apiError: false,
+      DatePickerFormat: "yyyyMMdd",
+      ja:ja,
     };
   },
   methods: {
