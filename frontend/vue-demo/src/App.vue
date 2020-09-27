@@ -3,13 +3,18 @@
     <Header />
     <div class="container">
       <div class="row">
-        <div class="col-12">
-          <br />
+        <div class="col-md-12">
+          <div v-if="apiError" class="mt-2 mb-2 p-2 alert alert-danger" role="alert">
+            サーバーと通信ができません。しばらく時間をおいてからもう一度お試しください。
+          </div>
+          <div v-if="message" class="mt-2 mb-2 p-2 alert alert-success" role="alert">
+            {{ message }}
+          </div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4">
           <Form @createTask="createTask" />
         </div>
-        <div class="col-8">
+        <div class="col-md-8">
           <List
             :todos="todos"
             :apiError="apiError"
@@ -42,6 +47,7 @@ export default {
     return {
       todos: [],
       apiError: false,
+      message: "",
     };
   },
   methods: {
@@ -72,6 +78,7 @@ export default {
         return;
       }
       this.apiError = false;
+      this.message = "正常に更新できました。"
       console.log(result);
       this.getTodo()
     },
@@ -86,6 +93,7 @@ export default {
         return;
       }
       this.apiError = false;
+      this.message = "正常に削除できました。"
       this.getTodo();
     },
     async createTask(todo) {
@@ -102,6 +110,7 @@ export default {
         return;
       }
       this.apiError = false;
+      this.message = "正常に保存できました。"
       this.getTodo()
       console.log(result);
     },
