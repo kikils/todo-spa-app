@@ -37,11 +37,14 @@
 
 ### 環境構築
 必須: 
-    - `docker`
-    - `docker-compose`
-    - `./firebase_deploy.env`に`FIREBASE_TOKEN`を保存
-    - `./frontend/vue-demo/.env.development`に`VUE_APP_API_BASE_URL={開発環境のバックエンドAPI}`を保存
-    - `./frontend/vue-demo/.env.local`に`VUE_APP_API_BASE_URL={ローカル環境のバックエンドAPI}`を保存
+```
+    - docker  
+    - docker-compose
+    - ./firebase_deploy.envにFIREBASE_TOKENを保存
+    - ./frontend/vue-demo/.env.developmentにVUE_APP_API_BASE_URL={開発環境のバックエンドAPI}を保存
+    - ./frontend/vue-demo/.env.localにVUE_APP_API_BASE_URL={ローカル環境のバックエンドAPI}を保存
+```
+
 
 ```
 $ make build
