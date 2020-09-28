@@ -1,5 +1,5 @@
 <template>
-  <table class="table">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>ID</th>
@@ -7,6 +7,7 @@
         <th>メモ</th>
         <th>期日</th>
         <th>完了</th>
+        <th>編集</th>
         <th>削除</th>
       </tr>
     </thead>
@@ -30,6 +31,11 @@
         </td>
         <td>
           <div class="text-center">
+            <button class="btn btn-info" v-on:click="callEditTodo(todo)">編集</button>
+          </div>
+        </td>
+        <td>
+          <div class="text-center">
             <button class="btn btn-danger" v-on:click="callDeleteTodo(todo.id)">削除</button>
           </div>
         </td>
@@ -41,6 +47,11 @@
 <script>
 export default {
   props: ['todos', 'apiError',],
+  data() {
+    return {
+      is_editable: 0,
+    }
+  },
   methods: {
     callDeleteTodo(id) {
       this.$emit('deleteTodo', id)
@@ -48,6 +59,9 @@ export default {
     callCompleteTodo(todo) {
       this.$emit('completeTodo', todo)
     },
+    callEditTodo(todo) {
+      this.$emit('callSetTodo', todo)
+    }
   },
   created() {
     this.$emit('getTodo')

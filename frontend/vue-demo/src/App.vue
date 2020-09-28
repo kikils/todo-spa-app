@@ -12,12 +12,13 @@
           </div>
         </div>
         <div class="col-md-4">
-          <Form @createTask="createTask" />
+          <Form ref="form" @createTask="createTask" @updateTodo="updateTodo" />
         </div>
         <div class="col-md-8">
           <List
             :todos="todos"
             :apiError="apiError"
+            @callSetTodo="callSetTodo"
             @deleteTodo="deleteTodo"
             @getTodo="getTodo"
             @completeTodo="completeTodo"
@@ -82,6 +83,25 @@ export default {
       console.log(result);
       this.getTodo()
     },
+    async updateTodo(todo) {
+      let result;
+      try {
+        result = await api.post("/todo/update", {
+          id: todo.id,
+          title: todo.title,
+          note: todo.note,
+          due_date: todo.due_date,
+          is_completed: false,
+        });
+      } catch (err) {
+        this.apiError = true;
+        return;
+      }
+      this.apiError = false;
+      this.message = "正常に更新できました。"
+      console.log(result);
+      this.getTodo()
+    },
     async deleteTodo(todoId) {
       let result;
       try {
@@ -113,6 +133,10 @@ export default {
       this.message = "正常に保存できました。"
       this.getTodo()
       console.log(result);
+    },
+    callSetTodo(todo) {
+      console.log("here")
+      this.$refs.form.setTodo(todo)
     },
   },
 };

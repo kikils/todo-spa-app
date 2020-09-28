@@ -15,7 +15,7 @@
         </b-list-group-item>
         <b-list-group-item class="list-group-item">
           <label>締め切り日付</label>
-          <Datepicker  v-model="inputPeriod" :format="DatePickerFormat" :language="ja" input-class="form-control" typeable=true placeholder="20200927"></Datepicker>
+          <Datepicker  :value="inputPeriod" :format="DatePickerFormat" :language="ja" input-class="form-control" :typeable=true placeholder="20200927"></Datepicker>
         </b-list-group-item>
         <b-list-group-item class="list-group-item">
           <label>詳細</label>
@@ -54,8 +54,9 @@ export default {
       inputDetail: "",
       validationError: "",
       apiError: false,
-      DatePickerFormat: "yyyyMMdd",
+      DatePickerFormat: "yyyy/MM/dd",
       ja:ja,
+      todo_id: 0,
     };
   },
   methods: {
@@ -69,14 +70,32 @@ export default {
           return
       }
       this.validationError = ""
-      const todo = {
-        title: this.inputTitle,
-        note: this.inputDetail,
-        due_date: this.inputPeriod,
-        is_completed: false,
-      };
-      this.$emit("createTask", todo);
+      if (this.todo_id == 0) {
+        const todo = {
+          title: this.inputTitle,
+          note: this.inputDetail,
+          due_date: this.inputPeriod,
+          is_completed: false,
+        };
+        this.$emit("createTask", todo);
+      } else {
+        const todo = {
+          id: this.todo_id,
+          title: this.inputTitle,
+          note: this.inputDetail,
+          due_date: this.inputPeriod,
+          is_completed: false,
+        };
+        this.$emit("updateTodo", todo);
+        this.todo_id = 0
+      }
       this.initInput();
+    },
+    setTodo(todo) {
+      this.todo_id = todo.id
+      this.inputTitle = todo.title;
+      this.inputDetail = todo.note;
+      this.inputPeriod = todo.due_date;
     },
     initInput() {
       this.inputTitle = "";
