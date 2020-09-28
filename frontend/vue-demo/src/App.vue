@@ -12,16 +12,18 @@
           </div>
         </div>
         <div class="col-md-4">
-          <Form ref="form" @createTask="createTask" @updateTodo="updateTodo" />
+          <Form ref="form" :editTodoId="editTodoId" @createTask="createTask" @updateTodo="updateTodo" @updateEditTodoId="updateEditTodoId"/>
         </div>
         <div class="col-md-8">
           <List
             :todos="todos"
             :apiError="apiError"
+            :editTodoId="editTodoId"
             @callSetTodo="callSetTodo"
             @deleteTodo="deleteTodo"
             @getTodo="getTodo"
             @completeTodo="completeTodo"
+            @updateEditTodoId="updateEditTodoId"
           />
         </div>
       </div>
@@ -49,6 +51,7 @@ export default {
       todos: [],
       apiError: false,
       message: "",
+      editTodoId: 0,
     };
   },
   methods: {
@@ -135,8 +138,11 @@ export default {
       console.log(result);
     },
     callSetTodo(todo) {
-      console.log("here")
       this.$refs.form.setTodo(todo)
+    },
+    updateEditTodoId(editTodoId) {
+
+      this.editTodoId = editTodoId
     },
   },
 };

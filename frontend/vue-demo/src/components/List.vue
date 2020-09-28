@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped">
+  <table class="table">
     <thead>
       <tr>
         <th>ID</th>
@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="todo in todos" v-bind:key="todo.id">
+      <tr v-for="todo in todos" v-bind:key="todo.id" v-bind:class="{'table-active': editTodoId === todo.id}">
         <td>{{ todo.id }}</td>
         <td>{{ todo.title }}</td>
         <td>{{ todo.note }}</td>
@@ -46,12 +46,7 @@
 
 <script>
 export default {
-  props: ['todos', 'apiError',],
-  data() {
-    return {
-      is_editable: 0,
-    }
-  },
+  props: ['todos', 'apiError','editTodoId'],
   methods: {
     callDeleteTodo(id) {
       this.$emit('deleteTodo', id)
@@ -60,6 +55,8 @@ export default {
       this.$emit('completeTodo', todo)
     },
     callEditTodo(todo) {
+      this.editTodoId = todo.id
+      this.$emit("updateEditTodoId", todo.id)
       this.$emit('callSetTodo', todo)
     }
   },
