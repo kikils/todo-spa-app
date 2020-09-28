@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/kikils/golang-todo/domain/model"
 	"github.com/kikils/golang-todo/interfaces/database"
@@ -43,11 +42,10 @@ func (controller *TodoController) Create(w http.ResponseWriter, r *http.Request)
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	formattedTime := parseTime(todoReceptor.DueDate)
 	todo := model.Todo{
 		Title:       todoReceptor.Title,
 		Note:        todoReceptor.Note,
-		DueDate:     formattedTime,
+		DueDate:     todoReceptor.DueDate,
 		IsCompleted: todoReceptor.IsCompleted,
 	}
 	id, err := controller.Interactor.Add(todo)
@@ -76,12 +74,11 @@ func (controller *TodoController) Update(w http.ResponseWriter, r *http.Request)
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	formattedTime := parseTime(todoReceptor.DueDate)
 	todo := model.Todo{
 		ID:          todoReceptor.ID,
 		Title:       todoReceptor.Title,
 		Note:        todoReceptor.Note,
-		DueDate:     formattedTime,
+		DueDate:     todoReceptor.DueDate,
 		IsCompleted: todoReceptor.IsCompleted,
 	}
 	id, err := controller.Interactor.Update(todo)
@@ -147,9 +144,4 @@ func ResponseError(w http.ResponseWriter, code int, message string) {
 		log.Println(err.Error())
 		return
 	}
-}
-
-func parseTime(date string) (formattedTime time.Time) {
-	formattedTime, _ = time.Parse("20060102", date)
-	return
 }

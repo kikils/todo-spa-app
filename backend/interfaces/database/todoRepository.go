@@ -50,7 +50,7 @@ func (repo *TodoRepository) Delete(id int) (err error) {
 }
 
 func (repo *TodoRepository) FindAll() (todoList model.Todos, err error) {
-	rows, err := repo.Sqlhandler.Query("SELECT id, title, note, duedate, is_completed FROM todos ORDER BY id;")
+	rows, err := repo.Sqlhandler.Query("SELECT id, title, note, to_char(duedate, 'YYYY/MM/DD'), is_completed FROM todos ORDER BY id;")
 	if err != nil {
 		return
 	}
