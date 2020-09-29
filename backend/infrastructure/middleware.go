@@ -15,7 +15,7 @@ import (
 
 func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		opt := option.WithCredentialsFile("./firebase-key.json")
+		opt := option.WithCredentialsFile("/.key/firebase-key.json")
 		app, err := firebase.NewApp(context.Background(), nil, opt)
 		if err != nil {
 			fmt.Errorf("error initializing app: %v", err)

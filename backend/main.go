@@ -31,8 +31,9 @@ func main() {
 	}
 	mux := infrastructure.SetUpRouting()
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedHeaders: []string{"*"},
+		AllowedOrigins:   []string{"*"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
 	})
 	handler := c.Handler(mux)
 	fmt.Printf("Start Server! Listen to %s port\n", addr)

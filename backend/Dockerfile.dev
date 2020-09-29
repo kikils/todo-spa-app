@@ -1,3 +1,4 @@
 FROM golang:latest
 WORKDIR /go/src/github.com/kikils/golang-todo
+COPY ./firebase-key.json /.key/firebase-key.json
 CMD [ "/bin/bash", "-c", "go run main.go 8080" ]
