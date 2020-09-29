@@ -10,7 +10,7 @@ type TodoRepository struct {
 
 func (repo *TodoRepository) Store(t model.Todo) (id int, err error) {
 	row, err := repo.Sqlhandler.Query(
-		"INSERT INTO todos (title, note, duedate, is_completed) VALUES ($1,$2,$3,$4) RETURNING id;", t.Title, t.Note, t.DueDate, t.IsCompleted,
+		"INSERT INTO todos (title, note, duedate, is_completed, user_id) VALUES ($1,$2,$3,$4,$5) RETURNING id;", t.Title, t.Note, t.DueDate, t.IsCompleted, t.UserID,
 	)
 
 	if err != nil {
@@ -49,8 +49,8 @@ func (repo *TodoRepository) Delete(id int) (err error) {
 	return
 }
 
-func (repo *TodoRepository) FindAll() (todoList model.Todos, err error) {
-	rows, err := repo.Sqlhandler.Query("SELECT id, title, note, to_char(duedate, 'YYYY/MM/DD'), is_completed FROM todos ORDER BY id;")
+func (repo *TodoRepository) FindByUserID(userID string) (todoList model.Todos, err error) {
+	rows, err := repo.Sqlhandler.Query("SELECT id, title, note, to_char(duedate, 'YYYY/MM/DD'), is_completed FROM todos WHERE user_id=$1 ORDER BY id;", userID)
 	if err != nil {
 		return
 	}

@@ -19,38 +19,38 @@ func SetUpRouting() *http.ServeMux {
 	}
 	todoController := controllers.NewTodoController(sqlhandler)
 
-	mux.HandleFunc("/todo/create", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/todo/create", AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			todoController.Create(w, r)
 		default:
 			ResponseError(w, http.StatusNotFound, "")
 		}
-	})
-	mux.HandleFunc("/todo/update", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	mux.HandleFunc("/todo/update", AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			todoController.Update(w, r)
 		default:
 			ResponseError(w, http.StatusNotFound, "")
 		}
-	})
-	mux.HandleFunc("/todo/delete", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	mux.HandleFunc("/todo/delete", AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			todoController.Delete(w, r)
 		default:
 			ResponseError(w, http.StatusNotFound, "")
 		}
-	})
-	mux.HandleFunc("/todo/all", func(w http.ResponseWriter, r *http.Request) {
+	}))
+	mux.HandleFunc("/todo/get", AuthMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
-			todoController.FindAll(w, r)
+			todoController.FindByUserID(w, r)
 		default:
 			ResponseError(w, http.StatusNotFound, "")
 		}
-	})
+	}))
 	return mux
 }
 

@@ -23,7 +23,7 @@ func (interactor *TodoInteractor) Delete(id int) (err error) {
 	return
 }
 
-func (interactor *TodoInteractor) Todos() (todos model.Todos, err error) {
-	todos, err = interactor.TodoRepository.FindAll()
+func (interactor *TodoInteractor) FindTodoByUserID(userID string) (todos model.Todos, err error) {
+	todos, err = interactor.TodoRepository.FindByUserID(userID)
 	return
 }

@@ -79,7 +79,7 @@ export default {
           return
       }
       this.validationError = ""
-      if (this.todo_id == 0) {
+      if (this.editTodoId == 0) {
         const todo = {
           title: this.inputTitle,
           note: this.inputDetail,

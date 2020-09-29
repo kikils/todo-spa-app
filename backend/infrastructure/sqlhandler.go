@@ -2,7 +2,6 @@ package infrastructure
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 
 	"github.com/kikils/golang-todo/interfaces/database"
@@ -22,7 +21,6 @@ func NewSqlhandler() *Sqlhandler {
 
 	err = db.Ping()
 	if err != nil {
-		fmt.Println("here")
 		return nil
 	}
 
@@ -30,7 +28,9 @@ func NewSqlhandler() *Sqlhandler {
 }
 
 func CreateTable(handler *Sqlhandler) (err error) {
-	_, err = handler.Execute("CREATE TABLE IF NOT EXISTS todos (id SERIAL NOT NULL, title varchar(30) NOT NULL, note varchar(30), duedate DATE, is_completed boolean);")
+	// TODO: delete
+	_, err = handler.Execute("DROP TABLE IF EXISTS todos;")
+	_, err = handler.Execute("CREATE TABLE IF NOT EXISTS todos (id SERIAL NOT NULL, title varchar(30) NOT NULL, note varchar(30), duedate DATE, is_completed boolean, user_id varchar(100));")
 	if err != nil {
 		return
 	}

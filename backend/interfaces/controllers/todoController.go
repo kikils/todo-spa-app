@@ -26,6 +26,11 @@ func NewTodoController(handler database.Sqlhandler) *TodoController {
 }
 
 func (controller *TodoController) Create(w http.ResponseWriter, r *http.Request) {
+	userID, err := GetUserID(r.Context())
+	if err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
@@ -47,6 +52,7 @@ func (controller *TodoController) Create(w http.ResponseWriter, r *http.Request)
 		Note:        todoReceptor.Note,
 		DueDate:     todoReceptor.DueDate,
 		IsCompleted: todoReceptor.IsCompleted,
+		UserID:      userID,
 	}
 	id, err := controller.Interactor.Add(todo)
 	if err != nil {
@@ -57,6 +63,11 @@ func (controller *TodoController) Create(w http.ResponseWriter, r *http.Request)
 }
 
 func (controller *TodoController) Update(w http.ResponseWriter, r *http.Request) {
+	userID, err := GetUserID(r.Context())
+	if err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		ResponseError(w, http.StatusInternalServerError, err.Error())
@@ -80,6 +91,7 @@ func (controller *TodoController) Update(w http.ResponseWriter, r *http.Request)
 		Note:        todoReceptor.Note,
 		DueDate:     todoReceptor.DueDate,
 		IsCompleted: todoReceptor.IsCompleted,
+		UserID:      userID,
 	}
 	id, err := controller.Interactor.Update(todo)
 	if err != nil {
@@ -89,8 +101,13 @@ func (controller *TodoController) Update(w http.ResponseWriter, r *http.Request)
 	ResponseOk(w, id)
 }
 
-func (controller *TodoController) FindAll(w http.ResponseWriter, r *http.Request) {
-	todoList, err := controller.Interactor.Todos()
+func (controller *TodoController) FindByUserID(w http.ResponseWriter, r *http.Request) {
+	userID, err := GetUserID(r.Context())
+	if err != nil {
+		ResponseError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	todoList, err := controller.Interactor.FindTodoByUserID(userID)
 	if err != nil {
 		ResponseError(w, http.StatusBadRequest, err.Error())
 		return

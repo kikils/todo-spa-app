@@ -4,5 +4,7 @@ const baseURL = process.env.VUE_APP_API_BASE_URL
 
 export default axios.create({
     baseURL,
-    
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    },
 })

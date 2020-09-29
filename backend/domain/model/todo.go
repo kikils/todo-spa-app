@@ -6,6 +6,7 @@ type Todo struct {
 	Note        string `json:"note"`
 	DueDate     string `json:"due_date"`
 	IsCompleted bool   `json:"is_completed"`
+	UserID      string
 }
 
 type Todos []Todo
