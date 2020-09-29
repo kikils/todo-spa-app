@@ -4,7 +4,7 @@
       <h2 class="header-title">タスク管理アプリ</h2>
       <b-collapse is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item><span>ようこそ　{{ getCurrentUserEmail }}</span></b-nav-item>
+          <b-nav-item><span v-if="currentUserEmail != ''">ようこそ　{{ currentUserEmail }}</span></b-nav-item>
           <b-nav-item-dropdown text="メニュー" right>
             <b-dropdown-item @click="signOut">サインアウト</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -27,9 +27,7 @@ export default {
       this.$router.push('/signin')
     },
     getCurrentUserEmail() {
-      if (firebase.auth().currentUse !== null) {
-        this.getCurrentUserEmail = firebase.auth().currentUser.email
-      }
+      this.currentUserEmail = firebase.auth().currentUser != null ? firebase.auth().currentUser.email : ''
     },
   },
   created() {
