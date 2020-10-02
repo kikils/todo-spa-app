@@ -20,7 +20,7 @@
         type="submit"
         @click="signUp"
       >
-        Sign up
+        登録する
       </button>
       <p>
         アカウントを持っている場合は

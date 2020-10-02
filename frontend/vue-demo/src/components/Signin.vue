@@ -1,6 +1,7 @@
 <template>
   <div class="text-center">
     <div class="signin">
+      <div v-if="validationError" class="text-center text-danger">{{ validationError }}</div>
       <h2 class="h3 my-3 font-weight-normal">サインイン</h2>
       <input
         type="email"
@@ -38,24 +39,40 @@ export default {
     return {
       email: "",
       password: "",
+      validationError: "",
     };
   },
   methods: {
+    validation: function () {
+      if (this.email === "" || this.password === "") {
+        return false
+      }
+      return true
+    },
     signIn: function () {
+      if (!this.validation()){
+        this.validationError = "メールアドレスとパスワードは両方とも入力してください。"
+        return
+      }
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(
-          (res) => {
-            res.user.getIdToken().then((idToken) => {
-              localStorage.setItem("jwt", idToken.toString());
-            });
-            this.$router.push("/");
-          },
-          (err) => {
-            alert(err.message);
-          }
-        );
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(
+              (res) => {
+                res.user.getIdToken().then((idToken) => {
+                  localStorage.setItem("jwt", idToken.toString());
+                });
+                this.$router.push("/").catch(err => console.log(err))
+              },
+              (err) => {
+                alert(err.message);
+              }
+            );
+        });
     },
   },
 };

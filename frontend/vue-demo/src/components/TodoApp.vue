@@ -2,20 +2,23 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div
+        <b-alert
           v-if="apiError"
-          class="mt-2 mb-2 p-2 alert alert-danger"
-          role="alert"
+          class="my-2"
+          variant="danger"
+          show dismissible
         >
           サーバーと通信ができません。しばらく時間をおいてからもう一度お試しください。
-        </div>
-        <div
+        </b-alert>
+        <b-alert
           v-if="message"
-          class="mt-2 mb-2 p-2 alert alert-success"
+          class="my-2"
           role="alert"
+          variant="success"
+          show dismissible
         >
           {{ message }}
-        </div>
+        </b-alert>
       </div>
       <div class="col-md-4">
         <Form
