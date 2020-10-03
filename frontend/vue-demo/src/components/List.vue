@@ -12,14 +12,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="todo in todos" v-bind:key="todo.id" v-bind:class="{'table-active': editTodoId === todo.id}">
+      <tr
+        v-for="todo in todos"
+        v-bind:key="todo.id"
+        v-bind:class="{ 'table-active': editTodoId === todo.id }"
+      >
         <td>{{ todo.id }}</td>
         <td>{{ todo.title }}</td>
         <td>{{ todo.note }}</td>
-        <td>{{todo.due_date }}</td>
+        <td>{{ todo.due_date }}</td>
         <td>
           <div class="text-center">
-            <button class="btn" v-on:click="callCompleteTodo(todo)" v-bind:class="{'btn-primary': !todo.is_completed, 'btn-secondary': todo.is_completed}">
+            <button
+              class="btn"
+              v-on:click="callCompleteTodo(todo)"
+              v-bind:class="{
+                'btn-primary': !todo.is_completed,
+                'btn-secondary': todo.is_completed,
+              }"
+            >
               <span v-if="todo.is_completed">
                 済み
               </span>
@@ -31,12 +42,16 @@
         </td>
         <td>
           <div class="text-center">
-            <button class="btn btn-info" v-on:click="callEditTodo(todo)">編集</button>
+            <button class="btn btn-info" v-on:click="callEditTodo(todo)">
+              編集
+            </button>
           </div>
         </td>
         <td>
           <div class="text-center">
-            <button class="btn btn-danger" v-on:click="callDeleteTodo(todo.id)">削除</button>
+            <button class="btn btn-danger" v-on:click="callDeleteTodo(todo.id)">
+              削除
+            </button>
           </div>
         </td>
       </tr>
@@ -46,22 +61,22 @@
 
 <script>
 export default {
-  props: ['todos', 'apiError','editTodoId'],
+  props: ["todos", "apiError", "editTodoId"],
   methods: {
     callDeleteTodo(id) {
-      this.$emit('deleteTodo', id)
+      this.$emit("deleteTodo", id);
     },
     callCompleteTodo(todo) {
-      this.$emit('completeTodo', todo)
+      this.$emit("completeTodo", todo);
     },
     callEditTodo(todo) {
-      this.editTodoId = todo.id
-      this.$emit("updateEditTodoId", todo.id)
-      this.$emit('callSetTodo', todo)
-    }
+      this.editTodoId = todo.id;
+      this.$emit("updateEditTodoId", todo.id);
+      this.$emit("callSetTodo", todo);
+    },
   },
   created() {
-    this.$emit('getTodo')
-  }
-}
+    this.$emit("getTodo");
+  },
+};
 </script>

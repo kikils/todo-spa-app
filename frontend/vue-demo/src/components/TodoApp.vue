@@ -2,12 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <b-alert
-          v-if="apiError"
-          class="my-2"
-          variant="danger"
-          show dismissible
-        >
+        <b-alert v-if="apiError" class="my-2" variant="danger" show dismissible>
           サーバーと通信ができません。しばらく時間をおいてからもう一度お試しください。
         </b-alert>
         <b-alert
@@ -15,7 +10,8 @@
           class="my-2"
           role="alert"
           variant="success"
-          show dismissible
+          show
+          dismissible
         >
           {{ message }}
         </b-alert>
@@ -46,7 +42,7 @@
 </template>
 
 <script>
-import api from "@/api"
+import api from "@/api";
 
 import Form from "@/components/Form";
 import List from "@/components/List";
@@ -91,8 +87,8 @@ export default {
         return;
       }
       this.apiError = false;
-      this.message = "正常に更新できました。"
-      this.getTodo()
+      this.message = "正常に更新できました。";
+      this.getTodo();
     },
     async updateTodo(todo) {
       let result;
@@ -109,8 +105,8 @@ export default {
         return;
       }
       this.apiError = false;
-      this.message = "正常に更新できました。"
-      this.getTodo()
+      this.message = "正常に更新できました。";
+      this.getTodo();
     },
     async deleteTodo(todoId) {
       let result;
@@ -123,7 +119,7 @@ export default {
         return;
       }
       this.apiError = false;
-      this.message = "正常に削除できました。"
+      this.message = "正常に削除できました。";
       this.getTodo();
     },
     async createTask(todo) {
@@ -140,15 +136,14 @@ export default {
         return;
       }
       this.apiError = false;
-      this.message = "正常に保存できました。"
-      this.getTodo()
+      this.message = "正常に保存できました。";
+      this.getTodo();
     },
     callSetTodo(todo) {
-      this.$refs.form.setTodo(todo)
+      this.$refs.form.setTodo(todo);
     },
     updateEditTodoId(editTodoId) {
-
-      this.editTodoId = editTodoId
+      this.editTodoId = editTodoId;
     },
   },
 };

@@ -31,25 +31,29 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 export default {
-  name: 'Signup',
-  data () {
+  name: "Signup",
+  data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+    };
   },
   methods: {
-    signUp: function () {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(res => {
-        this.$router.push('/signin')
-      }).catch(error => {
-        alert(error.message)
-      })
-    }
-  }
-}
+    signUp: function() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .then((res) => {
+          this.$router.push("/signin");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
